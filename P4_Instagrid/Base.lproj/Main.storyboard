@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -19,13 +20,13 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TestInstagrid" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="P4_Instagrid" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Instagrid" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t1u-Bi-scc">
-                                <rect key="frame" x="148.66666666666666" y="0.0" width="116.99999999999997" height="39"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instagrid" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t1u-Bi-scc">
+                                <rect key="frame" x="147.66666666666666" y="44" width="118.66666666666666" height="39"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="39" id="uhV-aS-1eX"/>
                                 </constraints>
@@ -43,11 +44,11 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="KN4-gc-oYT">
-                                <rect key="frame" x="102" y="195" width="210" height="50"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="KN4-gc-oYT">
+                                <rect key="frame" x="127.00000000000001" y="205" width="160.33333333333337" height="46"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow Up" translatesAutoresizingMaskIntoConstraints="NO" id="WwO-9y-tyC">
-                                        <rect key="frame" x="98.666666666666657" y="0.0" width="13" height="9"/>
+                                        <rect key="frame" x="73.666666666666657" y="0.0" width="13" height="9"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="9" id="bZB-8Z-6qI">
                                                 <variation key="heightClass=compact-widthClass=regular" constant="13"/>
@@ -57,8 +58,8 @@
                                             </constraint>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Swipe up to share" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alt-48-0Je">
-                                        <rect key="frame" x="0.0" y="17" width="210" height="33"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe up to share" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alt-48-0Je">
+                                        <rect key="frame" x="0.0" y="17" width="160.33333333333334" height="29"/>
                                         <fontDescription key="fontDescription" name="Delm-Medium" family="Delm" pointSize="26"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -236,13 +237,13 @@
                         <outlet property="swipeIcon" destination="WwO-9y-tyC" id="xXs-QR-yFp"/>
                         <outlet property="swipeLabel" destination="alt-48-0Je" id="UzX-bo-TlK"/>
                         <outlet property="topImageStackView" destination="CNg-se-Wt3" id="kAk-LN-FIV"/>
-                        <outletCollection property="imageButtons" destination="vOF-rD-tSM" collectionClass="NSMutableArray" id="jYB-xw-a44"/>
-                        <outletCollection property="imageButtons" destination="LFM-CC-2fU" collectionClass="NSMutableArray" id="i02-3N-WqQ"/>
-                        <outletCollection property="imageButtons" destination="RXc-La-dUs" collectionClass="NSMutableArray" id="nch-T3-OPQ"/>
-                        <outletCollection property="imageButtons" destination="yIU-SX-Q6f" collectionClass="NSMutableArray" id="hGu-TH-NiJ"/>
-                        <outletCollection property="controlButtons" destination="MuB-Hc-M5g" collectionClass="NSMutableArray" id="fVW-Xo-trG"/>
-                        <outletCollection property="controlButtons" destination="tLb-38-7cT" collectionClass="NSMutableArray" id="rBe-Wc-31k"/>
-                        <outletCollection property="controlButtons" destination="p9f-Ka-cX9" collectionClass="NSMutableArray" id="uBp-JG-IYk"/>
+                        <outletCollection property="imageButtonsArray" destination="vOF-rD-tSM" collectionClass="NSMutableArray" id="jYB-xw-a44"/>
+                        <outletCollection property="imageButtonsArray" destination="LFM-CC-2fU" collectionClass="NSMutableArray" id="i02-3N-WqQ"/>
+                        <outletCollection property="imageButtonsArray" destination="RXc-La-dUs" collectionClass="NSMutableArray" id="nch-T3-OPQ"/>
+                        <outletCollection property="imageButtonsArray" destination="yIU-SX-Q6f" collectionClass="NSMutableArray" id="hGu-TH-NiJ"/>
+                        <outletCollection property="controlButtonsArray" destination="MuB-Hc-M5g" collectionClass="NSMutableArray" id="fVW-Xo-trG"/>
+                        <outletCollection property="controlButtonsArray" destination="tLb-38-7cT" collectionClass="NSMutableArray" id="rBe-Wc-31k"/>
+                        <outletCollection property="controlButtonsArray" destination="p9f-Ka-cX9" collectionClass="NSMutableArray" id="uBp-JG-IYk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
