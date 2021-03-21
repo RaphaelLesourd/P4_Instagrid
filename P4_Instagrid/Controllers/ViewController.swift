@@ -20,27 +20,29 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var swipeIcon: UIImageView!
     @IBOutlet weak var swipeLabel: UILabel!
     
-    var imagePicker: ImagePicker?
-    var tappedImageButtonId = Int()
-    var imageGridVisble = true
-    var gestureSwipeRecognizer = UISwipeGestureRecognizer()
+    private var imagePicker: ImagePicker?
+    private var tappedImageButtonId = Int()
+    private var imageGridVisble = true
+    private var gestureSwipeRecognizer = UISwipeGestureRecognizer()
     
-    let emptyStateImageButton = #imageLiteral(resourceName: "Plus")
+    private let emptyStateImageButton = #imageLiteral(resourceName: "Plus-1")
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.imagePicker = ImagePicker(presentationController: self, delegate: self)
+        
         buttonsSetup()
         gestureSetup()
-        
-        self.imagePicker = ImagePicker(presentationController: self, delegate: self)
-        controlButtonsAction(controlButtonsArray[0])
-        
+       
+       /// add a notification observer to keep track when the device orientation changes and update the ui
         NotificationCenter.default.addObserver(self, selector: #selector(updateUiOnOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
         
     }
+    
+  
     
     // MARK: - Setup
     
@@ -64,6 +66,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             button.setImage(#imageLiteral(resourceName: "Selected"), for: .selected)
             button.addTarget(self, action: #selector(controlButtonsAction(_:)), for: .touchUpInside)
         }
+        /// selects the firrst layout when the app is first opened
+        controlButtonsAction(controlButtonsArray[0])
     }
     
     
@@ -86,8 +90,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     /// Handles the swipe gesture recognizer
     /// - Parameter gesture: pass in swipe gesture recognizer
-    @objc func handleGesture(gesture: UISwipeGestureRecognizer) {
-       
+    @objc private func handleGesture(gesture: UISwipeGestureRecognizer) {
+            
         ///  if grid is completed allow swipe gesture detection
         if self.imageGridComplete() {
             if gesture.direction == .up && UIDevice.current.orientation.isPortrait {
@@ -112,7 +116,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     /// Animate the girdView out of the view
     /// - Parameter direction: pass in gesture recognizer direction
-    func gridViewAnimateOut(for direction: UISwipeGestureRecognizer.Direction ) {
+    private func gridViewAnimateOut(for direction: UISwipeGestureRecognizer.Direction ) {
         
         let up = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height)
         let left = CGAffineTransform(translationX: -view.bounds.width, y: 0)
@@ -127,7 +131,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /// Animate gridView back to orginial position
-    func gridViewAnimateIn() {
+    private func gridViewAnimateIn() {
         UIView.animate(withDuration: 0.3) {
             self.imageGridContainerView.transform = .identity
         }
@@ -135,13 +139,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     /// Update the UI depending on device orientation
-    @objc func updateUiOnOrientationChange() {
-        if UIDevice.current.orientation.isLandscape {
+    @objc private func updateUiOnOrientationChange() {
+        if  UIApplication.shared.statusBarOrientation.isLandscape {
             swipeIcon.image = #imageLiteral(resourceName: "Arrow Left")
             swipeLabel.text = "Swipe left to share"
         } else  {
             swipeIcon.image = #imageLiteral(resourceName: "Arrow Up")
-            swipeLabel.text = "Swipe right to share"
+            swipeLabel.text = "Swipe up to share"
         }
     }
     
@@ -183,7 +187,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     /// Presents the image picker whe, an image button is tapped
     /// - Parameter sender: pass in the image button tapped
-    @objc func imageButtonAction(_ sender: UIButton) {
+    @objc private func imageButtonAction(_ sender: UIButton) {
         /// the tappedImageButtonId var keep tracked of the  tag for the button tapped
         /// so the image is assigned to the proper button
         tappedImageButtonId = sender.tag
