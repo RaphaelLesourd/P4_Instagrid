@@ -34,37 +34,13 @@ open class ImagePicker: NSObject {
         self.pickerController.mediaTypes = ["public.image"]
     }
     
-    private func action(for type: UIImagePickerController.SourceType, title: String) -> UIAlertAction? {
-        guard UIImagePickerController.isSourceTypeAvailable(type) else {
-            return nil
-        }
-        
-        return UIAlertAction(title: title, style: .default) { [unowned self] _ in
-            self.pickerController.sourceType = type
-            self.presentationController?.present(self.pickerController, animated: true)
-        }
-    }
     
-    public func present(from sourceView: UIView) {
-
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-    
-        if let action = self.action(for: .camera, title: "Camera") {
-            alertController.addAction(action)
+    public func present() {
+        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
+            return 
         }
-        if let action = self.action(for: .photoLibrary, title: "Photo library") {
-            alertController.addAction(action)
-        }
-        
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            alertController.popoverPresentationController?.sourceView = sourceView
-            alertController.popoverPresentationController?.sourceRect = sourceView.bounds
-            alertController.popoverPresentationController?.permittedArrowDirections = [.down, .up]
-        }
-        self.presentationController?.present(alertController, animated: true)
+        self.pickerController.sourceType = .photoLibrary
+        self.presentationController?.present(self.pickerController, animated: true)
     }
     
     private func pickerController(_ controller: UIImagePickerController, didSelect image: UIImage?) {

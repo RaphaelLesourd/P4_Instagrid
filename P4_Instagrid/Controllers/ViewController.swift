@@ -32,6 +32,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        /// Instantiate an  imagePicker and present on current viencontroller
         self.imagePicker = ImagePicker(presentationController: self, delegate: self)
         
         buttonsSetup()
@@ -77,13 +78,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     private func gestureSetup() {
         gestureSwipeRecognizer.delegate = self
         
-        /// Assign gesture handler to 2 case .up and .left
-        let directions: [UISwipeGestureRecognizer.Direction] = [.up, .left]
-        for direction in directions {
-            gestureSwipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
-            gestureSwipeRecognizer.direction = direction
-            self.view.addGestureRecognizer(gestureSwipeRecognizer)
-        }
+        
+        let leftSwipe =  UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
+        let upSwipe =  UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
+        
+        leftSwipe.direction = .left
+        upSwipe.direction = .up
+        
+        view.addGestureRecognizer(leftSwipe)
+        view.addGestureRecognizer(upSwipe)
         
     }
     
@@ -92,22 +95,20 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     /// - Parameter gesture: pass in swipe gesture recognizer
     @objc private func handleGesture(gesture: UISwipeGestureRecognizer) {
             
-        ///  if grid is completed allow swipe gesture detection
-        if self.imageGridComplete() {
-            if gesture.direction == .up && UIDevice.current.orientation.isPortrait {
-                gridViewAnimateOut(for: .up)
-            } else if gesture.direction == .left && UIDevice.current.orientation.isLandscape {
-                gridViewAnimateOut(for: .left)
+        
+            switch gesture.direction {
+            case .left:
+                if UIApplication.shared.statusBarOrientation.isLandscape {
+                    gridViewAnimateOut(for: .left)
+                }
+            case .up:
+                if UIApplication.shared.statusBarOrientation.isPortrait {
+                    gridViewAnimateOut(for: .up)
+                }
+            default:
+                break
             }
-           
-        } else {
-            /// if grid not completed display an alert to the  user
-            let alert = UIAlertController(title: "Oups!", message: "You need to complete the grid before sharing to your friends", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default)
-            alert.addAction(okAction)
-            present(alert, animated: true)
-            
-        }
+       
     }
     
     
@@ -120,14 +121,27 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let up = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height)
         let left = CGAffineTransform(translationX: -view.bounds.width, y: 0)
-        
-        UIView.animate(withDuration: 0.3) {
-            /// Check which direction is passed in and assign proper up or left translation
-            self.imageGridContainerView.transform = direction == .up ? up : left
-        } completion: { _ in
-            /// On completion share the gridView
-            self.shareGridView()
+     
+        ///  if grid is completed animate out gridview in proper direction
+        if self.imageGridComplete() {
+            
+            UIView.animate(withDuration: 0.3) {
+                /// Check which direction is passed in and assign proper up or left translation
+                self.imageGridContainerView.transform = direction == .up ? up : left
+            } completion: { _ in
+                /// On completion share the gridView
+                self.shareGridView()
+            }
+        } else {
+            
+            /// if grid not completed display an alert to the  user
+            let alert = UIAlertController(title: "Oups!", message: "You need to complete the grid before sharing to your friends", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+            
         }
+       
     }
     
     /// Animate gridView back to orginial position
@@ -175,7 +189,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// by hidding those 2 button , the stack view streches the adjacent button to full width
         switch sender.tag {
         case 0:
-            imageButtonsArray[1].isHidden = true
+           imageButtonsArray[1].isHidden = true
         case 1:
             imageButtonsArray[3].isHidden = true
         default:
@@ -183,6 +197,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
     }
+   
     
     
     /// Presents the image picker whe, an image button is tapped
@@ -191,7 +206,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// the tappedImageButtonId var keep tracked of the  tag for the button tapped
         /// so the image is assigned to the proper button
         tappedImageButtonId = sender.tag
-        imagePicker?.present(from: imageButtonsArray[tappedImageButtonId])
+        imagePicker?.present()
     }
     
     
@@ -253,6 +268,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// return true if the grid is completed
         return imageToSetCount >= availableImageCount
     }
+    
+    
     
     
 }
