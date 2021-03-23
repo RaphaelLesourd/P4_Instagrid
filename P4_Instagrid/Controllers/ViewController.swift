@@ -10,6 +10,7 @@ import Photos
 
 class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageGridContainerView: UIView!
     @IBOutlet weak var topImageStackView: UIStackView!
     @IBOutlet weak var bottomImageStackView: UIStackView!
@@ -25,7 +26,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     private var imageGridVisble = true
     private var gestureSwipeRecognizer = UISwipeGestureRecognizer()
     
-    private let emptyStateImageButton = #imageLiteral(resourceName: "Plus-1")
+    private let emptyStateImageButton = #imageLiteral(resourceName: "Plus")
     
     // MARK: - Life Cycle
     
@@ -221,14 +222,16 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             
             /// pass in the image to the activity controller
             let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-            
             /// on completion or dismissal animate the grid view back to its original position
             /// _ are put in the closure as we re not using any of these datas
             activityController.completionWithItemsHandler = { _, _, _, _ in
                 self?.gridViewAnimateIn()
             }
             /// present the activity controller
-            self?.present(activityController, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self?.present(activityController, animated: true, completion: nil)
+            }
+            
         }
     }
     

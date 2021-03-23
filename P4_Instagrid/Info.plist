@@ -22,6 +22,8 @@
 	<true/>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>This app need to access your photos to create a great collage</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>This app need to access your photos to create a great collage</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -11,12 +11,11 @@ import UIKit
 extension UIView {
     
     func convertToImage(completion: (UIImage) -> Void)  {
-        UIGraphicsBeginImageContext(self.frame.size)
-        if let context = UIGraphicsGetCurrentContext() {
-            self.layer.render(in: context)
-            guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return }
-            completion(image)
+        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+        let image = renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
         }
+        completion(image)
     }
     
 }
