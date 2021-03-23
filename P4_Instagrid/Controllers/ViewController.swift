@@ -21,6 +21,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var swipeIcon: UIImageView!
     @IBOutlet weak var swipeLabel: UILabel!
     
+    private let model = Model()
     private var imagePicker: ImagePicker?
     private var tappedImageButtonId = Int()
     private var imageGridVisble = true
@@ -218,7 +219,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         /// convert uiview to image, returns an image in the closure .
         /// assign weak self to avoid retain cycles and memory leak
-        imageGridContainerView.convertToImage { [weak self] image in
+        model.viewToImage(for: imageGridContainerView) { [weak self] image in
             
             /// pass in the image to the activity controller
             let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
@@ -240,36 +241,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     /// - Returns: return true if all images required are present
     private func imageGridComplete() -> Bool {
         
-        var availableImageCount = 0
-        var imageToSetCount = 0
+        var topGridComplete = false
+        var bottomGridComplete = false
+        topGridComplete =  model.gridComplete(for: topImageStackView,
+                                                   imageToCheck: emptyStateImageButton)
+        bottomGridComplete =  model.gridComplete(for: bottomImageStackView,
+                                                      imageToCheck: emptyStateImageButton)
         
-        /// for loop counting how many images are not hidden in the top & bottom image stackview
-        /// this count keep track of how many image is needed to complete the grid
-        for view in topImageStackView.arrangedSubviews {
-            /// if the view is not hidden increment count by 1
-            if !view.isHidden {
-                availableImageCount += 1
-            }
-            /// check if the view is a button
-            /// if the button (view) is not hiden and the image in the button is not the emptystate image (image has been replaced)
-            /// increment the count of images set in the grid by 1
-            if let button = view as? UIButton, !button.isHidden, button.imageView?.image != emptyStateImageButton {
-                imageToSetCount += 1
-            }
-        }
-        /// same as above for the bottom stackview
-        for view in bottomImageStackView.arrangedSubviews {
-            if !view.isHidden {
-                availableImageCount += 1
-            }
-            if let button = view as? UIButton, !button.isHidden, button.imageView?.image != emptyStateImageButton {
-                imageToSetCount += 1
-            }
-        }
-        
-        /// compare if the number of image uploaded equal the available views in for the layout
-        /// return true if the grid is completed
-        return imageToSetCount >= availableImageCount
+        return topGridComplete && bottomGridComplete
     }
     
     

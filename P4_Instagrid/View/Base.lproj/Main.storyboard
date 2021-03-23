@@ -273,8 +273,15 @@
                                 <exclude reference="1ct-h8-nw4"/>
                                 <exclude reference="2j1-yb-bDk"/>
                                 <exclude reference="BOu-rQ-cNX"/>
+                                <exclude reference="E5v-cC-Qtl"/>
                                 <exclude reference="Smm-B7-znd"/>
                                 <exclude reference="jCa-ef-OOB"/>
+                                <exclude reference="4pU-gd-umQ"/>
+                                <exclude reference="9Eh-Wz-0p1"/>
+                                <exclude reference="M1w-Tv-Alw"/>
+                                <exclude reference="Nx6-5S-n1H"/>
+                                <exclude reference="WQX-xD-3qJ"/>
+                                <exclude reference="XAP-w0-whv"/>
                                 <exclude reference="FcU-bb-kPs"/>
                                 <exclude reference="Kel-Ig-R8K"/>
                                 <exclude reference="LY2-E6-9me"/>
@@ -289,13 +296,6 @@
                                 <exclude reference="m3k-R3-LeV"/>
                                 <exclude reference="mg2-rA-VhW"/>
                                 <exclude reference="nMc-4P-17r"/>
-                                <exclude reference="4pU-gd-umQ"/>
-                                <exclude reference="9Eh-Wz-0p1"/>
-                                <exclude reference="M1w-Tv-Alw"/>
-                                <exclude reference="Nx6-5S-n1H"/>
-                                <exclude reference="WQX-xD-3qJ"/>
-                                <exclude reference="XAP-w0-whv"/>
-                                <exclude reference="E5v-cC-Qtl"/>
                                 <exclude reference="cAO-sk-VCi"/>
                                 <exclude reference="kUE-MM-zpN"/>
                                 <exclude reference="nGQ-xq-zVv"/>
@@ -305,14 +305,14 @@
                         <variation key="heightClass=compact-widthClass=compact">
                             <mask key="constraints">
                                 <include reference="2j1-yb-bDk"/>
+                                <include reference="E5v-cC-Qtl"/>
+                                <include reference="4pU-gd-umQ"/>
+                                <include reference="9Eh-Wz-0p1"/>
                                 <include reference="LY2-E6-9me"/>
                                 <include reference="Ob0-cu-r8m"/>
                                 <include reference="Ffi-dS-70Z"/>
                                 <include reference="Trg-q4-CH3"/>
                                 <include reference="m3k-R3-LeV"/>
-                                <include reference="4pU-gd-umQ"/>
-                                <include reference="9Eh-Wz-0p1"/>
-                                <include reference="E5v-cC-Qtl"/>
                                 <include reference="xZM-T5-MWz"/>
                             </mask>
                         </variation>
@@ -320,13 +320,13 @@
                             <mask key="constraints">
                                 <include reference="BOu-rQ-cNX"/>
                                 <include reference="Smm-B7-znd"/>
+                                <include reference="M1w-Tv-Alw"/>
+                                <include reference="Nx6-5S-n1H"/>
                                 <include reference="FcU-bb-kPs"/>
                                 <include reference="Ozk-QV-JE3"/>
                                 <include reference="fHL-N1-5uk"/>
                                 <include reference="5if-g1-bZJ"/>
                                 <include reference="mg2-rA-VhW"/>
-                                <include reference="M1w-Tv-Alw"/>
-                                <include reference="Nx6-5S-n1H"/>
                                 <exclude reference="cAO-sk-VCi"/>
                                 <include reference="kUE-MM-zpN"/>
                             </mask>
@@ -335,12 +335,12 @@
                             <mask key="constraints">
                                 <include reference="1ct-h8-nw4"/>
                                 <include reference="jCa-ef-OOB"/>
+                                <include reference="WQX-xD-3qJ"/>
+                                <include reference="XAP-w0-whv"/>
                                 <include reference="Kel-Ig-R8K"/>
                                 <include reference="N3a-os-BIr"/>
                                 <include reference="kq2-Cx-HnV"/>
                                 <include reference="nMc-4P-17r"/>
-                                <include reference="WQX-xD-3qJ"/>
-                                <include reference="XAP-w0-whv"/>
                                 <include reference="nGQ-xq-zVv"/>
                             </mask>
                         </variation>
