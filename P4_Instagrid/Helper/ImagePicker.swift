@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 import Photos
-
 import UIKit
 
 public protocol ImagePickerDelegate: class {

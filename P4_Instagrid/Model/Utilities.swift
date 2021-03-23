@@ -8,7 +8,9 @@
 import UIKit
 
 
-class Model {
+class Utilities {
+    
+    static let shared = Utilities()
     
     /// Convert any view to an image
     /// - Parameters:
@@ -51,7 +53,7 @@ class Model {
         /// compare if the number of image uploaded equal the available views in for the layout
         /// return true if the grid is completed
 
-       return imageToSetCount == availableImageCount// ? true : false
+       return imageToSetCount == availableImageCount
     }
     
 }

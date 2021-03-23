@@ -21,7 +21,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var swipeIcon: UIImageView!
     @IBOutlet weak var swipeLabel: UILabel!
     
-    private let model = Model()
+  
     private var imagePicker: ImagePicker?
     private var tappedImageButtonId = Int()
     private var imageGridVisble = true
@@ -219,7 +219,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         /// convert uiview to image, returns an image in the closure .
         /// assign weak self to avoid retain cycles and memory leak
-        model.viewToImage(for: imageGridContainerView) { [weak self] image in
+        Utilities.shared.viewToImage(for: imageGridContainerView) { [weak self] image in
             
             /// pass in the image to the activity controller
             let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
@@ -243,9 +243,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         var topGridComplete = false
         var bottomGridComplete = false
-        topGridComplete =  model.gridComplete(for: topImageStackView,
+        topGridComplete =  Utilities.shared.gridComplete(for: topImageStackView,
                                                    imageToCheck: emptyStateImageButton)
-        bottomGridComplete =  model.gridComplete(for: bottomImageStackView,
+        bottomGridComplete =  Utilities.shared.gridComplete(for: bottomImageStackView,
                                                       imageToCheck: emptyStateImageButton)
         
         return topGridComplete && bottomGridComplete
