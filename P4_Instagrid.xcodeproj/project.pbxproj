@@ -16,7 +16,6 @@
 		813D3ADD26074465005A23D6 /* Delm-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 813D3ADC26074460005A23D6 /* Delm-Medium.otf */; };
 		813D3ADF26074468005A23D6 /* ThirstySoftRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 813D3ADB2607445A005A23D6 /* ThirstySoftRegular.otf */; };
 		815DF86B26079D9700736893 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815DF86A26079D9700736893 /* Utilities.swift */; };
-		81DEA6D1260730DD007F4F38 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DEA6D0260730DD007F4F38 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +30,6 @@
 		813D3ADB2607445A005A23D6 /* ThirstySoftRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ThirstySoftRegular.otf; sourceTree = "<group>"; };
 		813D3ADC26074460005A23D6 /* Delm-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Delm-Medium.otf"; sourceTree = "<group>"; };
 		815DF86A26079D9700736893 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		81DEA6D0260730DD007F4F38 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +63,6 @@
 			isa = PBXGroup;
 			children = (
 				811648D926065ADE001755C7 /* Info.plist */,
-				81DEA6CF260730CC007F4F38 /* Helper */,
 				813D3AD52607407E005A23D6 /* Supporting Files */,
 				8118D426260A233C00C21215 /* Model */,
 				8118D427260A234C00C21215 /* View */,
@@ -109,14 +106,6 @@
 				811648CF26065ADC001755C7 /* ViewController.swift */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		81DEA6CF260730CC007F4F38 /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				81DEA6D0260730DD007F4F38 /* ImagePicker.swift */,
-			);
-			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,7 +182,6 @@
 			files = (
 				815DF86B26079D9700736893 /* Utilities.swift in Sources */,
 				811648D026065ADC001755C7 /* ViewController.swift in Sources */,
-				81DEA6D1260730DD007F4F38 /* ImagePicker.swift in Sources */,
 				811648CC26065ADC001755C7 /* AppDelegate.swift in Sources */,
 				811648CE26065ADC001755C7 /* SceneDelegate.swift in Sources */,
 			);

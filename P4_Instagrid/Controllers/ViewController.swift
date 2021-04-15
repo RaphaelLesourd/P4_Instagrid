@@ -14,38 +14,32 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var imageGridContainerView: UIView!
     @IBOutlet weak var topImageStackView: UIStackView!
     @IBOutlet weak var bottomImageStackView: UIStackView!
-   
+    
     @IBOutlet var imageButtonsArray: [UIButton]!
     @IBOutlet var controlButtonsArray: [UIButton]!
     
     @IBOutlet weak var swipeIcon: UIImageView!
     @IBOutlet weak var swipeLabel: UILabel!
     
-  
-    private var imagePicker: ImagePicker?
+   // MARK: - Properties
     private var tappedImageButtonId = Int()
     private var imageGridVisble = true
     private var gestureSwipeRecognizer = UISwipeGestureRecognizer()
-    
     private let emptyStateImageButton = #imageLiteral(resourceName: "Plus")
+    private let imagePickerController = UIImagePickerController()
     
+
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        /// Instantiate an  imagePicker and present on current viencontroller
-        self.imagePicker = ImagePicker(presentationController: self, delegate: self)
-        
+     
         buttonsSetup()
         gestureSetup()
-       
-       /// add a notification observer to keep track when the device orientation changes and update the ui
-        NotificationCenter.default.addObserver(self, selector: #selector(updateUiOnOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
         
+        /// add a notification observer to keep track when the device orientation changes and update the ui
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUiOnOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
-    
-  
     
     // MARK: - Setup
     
@@ -79,40 +73,32 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     /// Gesture Recognizer setup
     private func gestureSetup() {
         gestureSwipeRecognizer.delegate = self
-        
-        
-        let leftSwipe =  UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
-        let upSwipe =  UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
-        
-        leftSwipe.direction = .left
-        upSwipe.direction = .up
-        
-        view.addGestureRecognizer(leftSwipe)
-        view.addGestureRecognizer(upSwipe)
-        
-    }
     
+        let leftSwipe =  UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
+        leftSwipe.direction = .left
+        view.addGestureRecognizer(leftSwipe)
+        
+        let upSwipe =  UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
+        upSwipe.direction = .up
+        view.addGestureRecognizer(upSwipe)
+    }
     
     /// Handles the swipe gesture recognizer
     /// - Parameter gesture: pass in swipe gesture recognizer
     @objc private func handleGesture(gesture: UISwipeGestureRecognizer) {
-            
-        
-            switch gesture.direction {
-            case .left:
-                if UIApplication.shared.statusBarOrientation.isLandscape {
-                    gridViewAnimateOut(for: .left)
-                }
-            case .up:
-                if UIApplication.shared.statusBarOrientation.isPortrait {
-                    gridViewAnimateOut(for: .up)
-                }
-            default:
-                break
+        switch gesture.direction {
+        case .left:
+            if UIApplication.shared.statusBarOrientation.isLandscape {
+                gridViewAnimateOut(for: .left)
             }
-       
+        case .up:
+            if UIApplication.shared.statusBarOrientation.isPortrait {
+                gridViewAnimateOut(for: .up)
+            }
+        default:
+            break
+        }
     }
-    
     
     
     // MARK: - UI Animation
@@ -123,10 +109,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let up = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height)
         let left = CGAffineTransform(translationX: -view.bounds.width, y: 0)
-     
+        
         ///  if grid is completed animate out gridview in proper direction
         if self.imageGridComplete() {
-            
             UIView.animate(withDuration: 0.3) {
                 /// Check which direction is passed in and assign proper up or left translation
                 self.imageGridContainerView.transform = direction == .up ? up : left
@@ -135,15 +120,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.shareGridView()
             }
         } else {
-            
             /// if grid not completed display an alert to the  user
-            let alert = UIAlertController(title: "Oups!", message: "You need to complete the grid before sharing to your friends", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Oups!", message: "Vous devez compléter la grille avant de pouvoir partager avec vos amis.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default)
             alert.addAction(okAction)
             present(alert, animated: true)
-            
         }
-       
     }
     
     /// Animate gridView back to orginial position
@@ -152,8 +134,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             self.imageGridContainerView.transform = .identity
         }
     }
-    
-    
+   
     /// Update the UI depending on device orientation
     @objc private func updateUiOnOrientationChange() {
         if  UIApplication.shared.statusBarOrientation.isLandscape {
@@ -179,7 +160,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// set sender button to selected stated by using button tag property
         controlButtonsArray[sender.tag].isSelected = true
         
-       /// for loop to reset all imageButton in the collection to non hiden state
+        /// for loop to reset all imageButton in the collection to non hiden state
         for button in imageButtonsArray {
             button.isHidden = false
         }
@@ -191,16 +172,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// by hidding those 2 button , the stack view streches the adjacent button to full width
         switch sender.tag {
         case 0:
-           imageButtonsArray[1].isHidden = true
+            imageButtonsArray[1].isHidden = true
         case 1:
             imageButtonsArray[3].isHidden = true
         default:
             return
         }
-        
     }
-   
-    
     
     /// Presents the image picker whe, an image button is tapped
     /// - Parameter sender: pass in the image button tapped
@@ -208,19 +186,17 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// the tappedImageButtonId var keep tracked of the  tag for the button tapped
         /// so the image is assigned to the proper button
         tappedImageButtonId = sender.tag
-        imagePicker?.present()
+        presentImagePicker()
     }
     
     
-    // MARK: Private Functions
+    // MARK:  Share
     
     /// Share gridView as an image
     private func shareGridView() {
-        
         /// convert uiview to image, returns an image in the closure .
         /// assign weak self to avoid retain cycles and memory leak
         Utilities.shared.viewToImage(for: imageGridContainerView) { [weak self] image in
-            
             /// pass in the image to the activity controller
             let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             /// on completion or dismissal animate the grid view back to its original position
@@ -236,39 +212,51 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    // MARK: Grid completion
     
     /// Keep track if all images are set for the given layout
     /// - Returns: return true if all images required are present
     private func imageGridComplete() -> Bool {
-        
         var topGridComplete = false
         var bottomGridComplete = false
-        topGridComplete =  Utilities.shared.gridComplete(for: topImageStackView,
-                                                   imageToCheck: emptyStateImageButton)
-        bottomGridComplete =  Utilities.shared.gridComplete(for: bottomImageStackView,
-                                                      imageToCheck: emptyStateImageButton)
-        
+        topGridComplete = Utilities.shared.gridComplete(for: topImageStackView,
+                                                         imageToCheck: emptyStateImageButton)
+        bottomGridComplete = Utilities.shared.gridComplete(for: bottomImageStackView,
+                                                            imageToCheck: emptyStateImageButton)
         return topGridComplete && bottomGridComplete
     }
     
+    // MARK: Image Picker
     
-    
-    
+    /// Presente Image Picker Controller
+    private func presentImagePicker() {
+        imagePickerController.allowsEditing = false
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
+    }
 }
 
 // MARK: Extension
 
-extension ViewController: ImagePickerDelegate {
+extension ViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate  {
     
-    /// imagepicker selected image
-    /// - Parameter image: optional returned from the image picker
-    func didSelect(image: UIImage?) {
-        /// unwraped the optional to use the iamge if not nil
-        guard let image = image else {return}
+    /// Delegate function returning a selected image
+    /// - Parameters:
+    ///   - picker: UIImagePickerController
+    ///   - info: return image info
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         /// assigned the image to the button by using the tappedImageButtonId var that keeps track of the button tag pproperty
         imageButtonsArray[tappedImageButtonId].setImage(image, for: .normal)
+        self.dismiss(animated: true, completion: nil)
     }
     
+    /// Delegate method to dismiss picker if cancel button is tapped
+    /// - Parameter picker: UIImagePickerController
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 

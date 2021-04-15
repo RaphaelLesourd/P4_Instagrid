@@ -24,7 +24,6 @@ class Utilities {
         completion(image)
     }
     
-    
     /// Check if the a stackview as an image from the photo library
     /// - Parameters:
     ///   - stackView: pass in a stackview
@@ -49,10 +48,8 @@ class Utilities {
                 imageToSetCount += 1
             }
         }
-        
         /// compare if the number of image uploaded equal the available views in for the layout
         /// return true if the grid is completed
-
        return imageToSetCount == availableImageCount
     }
     
