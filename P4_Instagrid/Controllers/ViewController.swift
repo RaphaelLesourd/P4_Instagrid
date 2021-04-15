@@ -23,12 +23,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
    // MARK: - Properties
     private var tappedImageButtonId = Int()
-    private var imageGridVisble = true
     private var gestureSwipeRecognizer = UISwipeGestureRecognizer()
     private let emptyStateImageButton = #imageLiteral(resourceName: "Plus")
     private let imagePickerController = UIImagePickerController()
-    
     private let gridManager = GridManager()
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
