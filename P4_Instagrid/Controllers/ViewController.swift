@@ -28,7 +28,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     private let emptyStateImageButton = #imageLiteral(resourceName: "Plus")
     private let imagePickerController = UIImagePickerController()
     
-
+    private let gridManager = GridManager()
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -110,7 +110,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let left = CGAffineTransform(translationX: -view.bounds.width, y: 0)
         
         ///  if grid is completed animate out gridview in proper direction
-        let isGridComplete = Utilities.shared.gridViewComplete(for: topImageStackView, and: bottomImageStackView, refImage: emptyStateImageButton)
+        let isGridComplete = gridManager.gridViewComplete(for: topImageStackView, and: bottomImageStackView, refImage: emptyStateImageButton)
         
         if isGridComplete {
             UIView.animate(withDuration: 0.3) { [weak self] in
@@ -205,7 +205,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     private func shareImageFromGrid() {
         /// convert uiview to image, returns an image in the closure .
         /// assign weak self to avoid retain cycles
-        Utilities.shared.viewToImage(for: gridView) { [weak self] image in
+        gridManager.viewToImage(for: gridView) { [weak self] image in
             
             /// pass in the image to the activity controller
             let activityController = UIActivityViewController(activityItems: [image],

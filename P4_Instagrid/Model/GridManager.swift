@@ -8,9 +8,7 @@
 import UIKit
 
 
-class Utilities {
-    
-    static let shared = Utilities()
+struct GridManager {
     
     /// Convert any view to an image
     /// - Parameters:
@@ -23,7 +21,6 @@ class Utilities {
         }
         completion(image)
     }
-    
     
     
     /// Check if the grid is complete
