@@ -11,7 +11,7 @@ import Photos
 class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var imageGridContainerView: UIView!
+    @IBOutlet weak var gridView: UIView!
     @IBOutlet weak var topImageStackView: UIStackView!
     @IBOutlet weak var bottomImageStackView: UIStackView!
     
@@ -41,7 +41,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateUiOnOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
-    // MARK: - Setup
+    // MARK: - button setup
     
     /// Sets up all the the Buttons
     private func buttonsSetup() {
@@ -49,7 +49,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// for loop assigning the same empty state image to all 4 buttons
         /// set contentmode to keep image proportions and fill the button
         /// assign same taget function to all 4 buttons
-        for button in imageButtonsArray {
+        imageButtonsArray.forEach { button in
             button.imageView?.contentMode = .scaleAspectFill
             button.setImage(emptyStateImageButton, for: .normal)
             button.addTarget(self, action: #selector(imageButtonAction(_:)), for: .touchUpInside)
@@ -58,7 +58,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// for loop assigning the same selected state image to all 3 coltrol buttons
         /// set content mode to keep image proportions and fill the button
         /// assign same taget function to all 3 control buttons
-        for button in controlButtonsArray {
+        controlButtonsArray.forEach { (button) in
             button.contentMode = .scaleAspectFill
             button.setImage(#imageLiteral(resourceName: "Selected"), for: .selected)
             button.addTarget(self, action: #selector(controlButtonsAction(_:)), for: .touchUpInside)
@@ -66,7 +66,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// selects the firrst layout when the app is first opened
         controlButtonsAction(controlButtonsArray[0])
     }
-    
     
     // MARK: - Gesture
     
@@ -111,30 +110,39 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let left = CGAffineTransform(translationX: -view.bounds.width, y: 0)
         
         ///  if grid is completed animate out gridview in proper direction
-        if self.imageGridComplete() {
-            UIView.animate(withDuration: 0.3) {
+        let isGridComplete = Utilities.shared.gridViewComplete(for: topImageStackView, and: bottomImageStackView, refImage: emptyStateImageButton)
+        
+        if isGridComplete {
+            UIView.animate(withDuration: 0.3) { [weak self] in
                 /// Check which direction is passed in and assign proper up or left translation
-                self.imageGridContainerView.transform = direction == .up ? up : left
+                self?.gridView.transform = direction == .up ? up : left
             } completion: { _ in
                 /// On completion share the gridView
-                self.shareGridView()
+                self.shareImageFromGrid()
             }
         } else {
             /// if grid not completed display an alert to the  user
-            let alert = UIAlertController(title: "Oups!", message: "Vous devez compléter la grille avant de pouvoir partager avec vos amis.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default)
-            alert.addAction(okAction)
-            present(alert, animated: true)
+            incompleteGridAlert()
         }
     }
     
     /// Animate gridView back to orginial position
     private func gridViewAnimateIn() {
         UIView.animate(withDuration: 0.3) {
-            self.imageGridContainerView.transform = .identity
+            self.gridView.transform = .identity
         }
     }
    
+    // MARK: - Alert
+    private func incompleteGridAlert() {
+        let alert = UIAlertController(title: "Oups!", message: "Vous devez compléter la grille avant de pouvoir partager avec vos amis.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
+    // MARK: UI orientation update
+    
     /// Update the UI depending on device orientation
     @objc private func updateUiOnOrientationChange() {
         if  UIApplication.shared.statusBarOrientation.isLandscape {
@@ -145,6 +153,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             swipeLabel.text = "Swipe up to share"
         }
     }
+    
     
     
     // MARK: - Buttons Action
@@ -190,43 +199,34 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
-    // MARK:  Share
+    // MARK: - Share
     
     /// Share gridView as an image
-    private func shareGridView() {
+    private func shareImageFromGrid() {
         /// convert uiview to image, returns an image in the closure .
-        /// assign weak self to avoid retain cycles and memory leak
-        Utilities.shared.viewToImage(for: imageGridContainerView) { [weak self] image in
+        /// assign weak self to avoid retain cycles
+        Utilities.shared.viewToImage(for: gridView) { [weak self] image in
+            
             /// pass in the image to the activity controller
-            let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            let activityController = UIActivityViewController(activityItems: [image],
+                                                              applicationActivities: nil)
             /// on completion or dismissal animate the grid view back to its original position
             /// _ are put in the closure as we re not using any of these datas
-            activityController.completionWithItemsHandler = { _, _, _, _ in
+            activityController.completionWithItemsHandler = { activity, completed, items, error in
+                if error != nil {
+                    print("\(error?.localizedDescription ?? "")")
+                }
                 self?.gridViewAnimateIn()
             }
             /// present the activity controller
             DispatchQueue.main.async {
                 self?.present(activityController, animated: true, completion: nil)
             }
-            
         }
     }
     
-    // MARK: Grid completion
-    
-    /// Keep track if all images are set for the given layout
-    /// - Returns: return true if all images required are present
-    private func imageGridComplete() -> Bool {
-        var topGridComplete = false
-        var bottomGridComplete = false
-        topGridComplete = Utilities.shared.gridComplete(for: topImageStackView,
-                                                         imageToCheck: emptyStateImageButton)
-        bottomGridComplete = Utilities.shared.gridComplete(for: bottomImageStackView,
-                                                            imageToCheck: emptyStateImageButton)
-        return topGridComplete && bottomGridComplete
-    }
-    
-    // MARK: Image Picker
+
+    // MARK: - Image Picker
     
     /// Presente Image Picker Controller
     private func presentImagePicker() {
@@ -236,6 +236,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         present(imagePickerController, animated: true, completion: nil)
     }
 }
+
 
 // MARK: Extension
 

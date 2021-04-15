@@ -24,6 +24,24 @@ class Utilities {
         completion(image)
     }
     
+    
+    
+    /// Check if the grid is complete
+    /// - Parameters:
+    ///   - topStack: pass in the top stackview object
+    ///   - bottomStack: pass in the bottom stackview object
+    ///   - refImage: pass in the ref image to compare with
+    /// - Returns: a Bool value if grid is complete
+    func gridViewComplete(for topStack: UIStackView, and bottomStack: UIStackView, refImage: UIImage) -> Bool {
+        var topGridComplete = false
+        var bottomGridComplete = false
+        /// checks if each stackview contains the ref image
+        topGridComplete = gridComplete(for: topStack,imageToCheck: refImage)
+        bottomGridComplete = gridComplete(for: bottomStack,imageToCheck: refImage)
+        return topGridComplete && bottomGridComplete
+    }
+    
+    
     /// Check if the a stackview as an image from the photo library
     /// - Parameters:
     ///   - stackView: pass in a stackview
@@ -50,7 +68,8 @@ class Utilities {
         }
         /// compare if the number of image uploaded equal the available views in for the layout
         /// return true if the grid is completed
-       return imageToSetCount == availableImageCount
+        return imageToSetCount == availableImageCount
     }
+    
     
 }
