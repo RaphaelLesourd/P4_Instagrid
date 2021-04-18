@@ -12,8 +12,8 @@ struct GridManager {
     
     /// Convert any view to an image
     /// - Parameters:
-    ///   - view: pass in the view to convert
-    ///   - completion: return in the closure an image
+    ///   - view: Pass in the view to convert
+    ///   - completion: Return in the closure an image
     func viewToImage(for view: UIView, completion: (UIImage) -> Void)  {
         let renderer = UIGraphicsImageRenderer(bounds: view.bounds)
         let image = renderer.image { rendererContext in
@@ -25,11 +25,12 @@ struct GridManager {
     
     /// Check if the grid is complete
     /// - Parameters:
-    ///   - topStack: pass in the top stackview object
-    ///   - bottomStack: pass in the bottom stackview object
-    ///   - refImage: pass in the ref image to compare with
-    /// - Returns: a Bool value if grid is complete
-    func gridViewComplete(for topStack: UIStackView, and bottomStack: UIStackView, refImage: UIImage) -> Bool {
+    ///   - topStack: Pass in the top stackview object.
+    ///   - bottomStack: Pass in the bottom stackview object.
+    ///   - refImage: Pass in the ref image to compare with.
+    /// - Returns: Bool value if grid is complete.
+    func gridViewComplete(for topStack: UIStackView, and bottomStack: UIStackView,
+                          refImage: UIImage) -> Bool {
         var topGridComplete = false
         var bottomGridComplete = false
         /// checks if each stackview contains the ref image
@@ -49,7 +50,7 @@ struct GridManager {
         var availableImageCount = 0
         var imageToSetCount = 0
         
-        /// for loop counting how many images are not hidden in the top & bottom image stackview
+        /// For Loop counting how many images are not hidden in the top & bottom image stackview
         /// this count keep track of how many image is needed to complete the grid
         for view in stackView.arrangedSubviews {
             /// if the view is not hidden increment count by 1

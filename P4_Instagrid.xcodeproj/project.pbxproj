@@ -12,10 +12,10 @@
 		811648D026065ADC001755C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811648CF26065ADC001755C7 /* ViewController.swift */; };
 		8118D42B260A238800C21215 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 811648D126065ADC001755C7 /* Main.storyboard */; };
 		8118D42E260A239300C21215 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 811648D626065ADE001755C7 /* LaunchScreen.storyboard */; };
+		8134E6A6262C8EB0005CBD11 /* GridManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815DF86A26079D9700736893 /* GridManager.swift */; };
 		813D3AD72607408C005A23D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 811648D426065ADE001755C7 /* Assets.xcassets */; };
 		813D3ADD26074465005A23D6 /* Delm-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 813D3ADC26074460005A23D6 /* Delm-Medium.otf */; };
 		813D3ADF26074468005A23D6 /* ThirstySoftRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 813D3ADB2607445A005A23D6 /* ThirstySoftRegular.otf */; };
-		815DF86B26079D9700736893 /* GridManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815DF86A26079D9700736893 /* GridManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -188,8 +188,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				815DF86B26079D9700736893 /* GridManager.swift in Sources */,
 				811648D026065ADC001755C7 /* ViewController.swift in Sources */,
+				8134E6A6262C8EB0005CBD11 /* GridManager.swift in Sources */,
 				811648CC26065ADC001755C7 /* AppDelegate.swift in Sources */,
 				811648CE26065ADC001755C7 /* SceneDelegate.swift in Sources */,
 			);
