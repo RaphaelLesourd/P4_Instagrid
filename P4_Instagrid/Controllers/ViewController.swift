@@ -35,7 +35,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
      
         buttonsSetup()
         gestureSetup()
-        
+   
         imagePickerController.delegate = self
         gestureSwipeRecognizer.delegate = self
         
@@ -43,6 +43,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         controlButtonsAction(controlButtonsArray[0])
         /// add a notification observer to keep track when the device orientation changes and update the ui
         NotificationCenter.default.addObserver(self, selector: #selector(updateUiOnOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        checkPermission()
     }
     
   
@@ -263,6 +268,29 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         imagePickerController.sourceType = .photoLibrary
         present(imagePickerController, animated: true, completion: nil)
     }
+    
+    func checkPermission() {
+        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+        switch photoAuthorizationStatus {
+        case .authorized:
+            print("Access is granted by user")
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization({
+                (newStatus) in print("status is \(newStatus)")
+                if newStatus == PHAuthorizationStatus.authorized {
+                    print("success")
+                }
+            })
+        case .restricted:
+            print("Access is granted by user")
+        case .denied:
+            print("Access is granted by user")
+        case .limited:
+            print("Access is granted by user")
+        @unknown default:
+            print("Access is granted by user")
+        }
+    }
 }
 
 
@@ -271,7 +299,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     
     
-    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         /// Set the image to the proper button by using the tappedImageButtonTag property which keeps track of the button tag.
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {

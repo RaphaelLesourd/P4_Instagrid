@@ -8,7 +8,7 @@
 import UIKit
 
 
-struct GridManager {
+class GridManager {
     
     /// Convert any view to an image
     /// - Parameters:
