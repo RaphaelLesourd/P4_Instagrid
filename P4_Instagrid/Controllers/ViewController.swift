@@ -72,6 +72,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    
+    
+    
     // MARK: - Gesture
     
     /// Gesture Recognizer sets a left swipe for landscape mode and up swipe for portrait orientation.
@@ -102,6 +105,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             break
         }
     }
+    
+    
     
     
     // MARK: - UI Animation
@@ -138,6 +143,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
    
+    
+    
     // MARK: - Alert
     
     /// Present an alert to inform user, the grid is not complete with a simple message and a dismiss button.
@@ -148,7 +155,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         present(alert, animated: true)
     }
     
-    // MARK: UI orientation update
+    
+    
+    // MARK: - UI orientation update
     
     /// Update the UI depending on device orientation
     /// Checks device orientation and updates the swipeIcon image and swipeLabel text.
@@ -169,13 +178,16 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     /// Control the grid by hidding or showing button within the 2 stackviews.
     ///
     /// To match the layout Icons of the control button, image buttons are hidden depending on which control button is tapped.
+    ///
     /// By hidding a button, the stackview streches the adjacent button to full width.
-    /// - There are 3 cases:
-    /// - Top right is hidden  TAG 1.
-    /// - Bottom right is hidden  TAG 3.
-    /// - None of the button are hidden then all 4 buttons are showing.
+    ///
+    /// `Three cases:`
+    /// - First layout      : Top right is hidden  TAG 1.
+    /// - Second layout : Bottom right is hidden  TAG 3.
+    /// - Third layout     : None of the button are hidden.
     ///
     /// - Parameter sender: Pass in the control button tapped
+
     @objc private func controlButtonsAction(_ sender: UIButton) {
         
         /// for loop to reset all control button in the collection to non selected state
@@ -202,13 +214,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     /// Presents the image picker when a gridView button is tapped.
     ///
-    /// - tappedImageButtonTag  property keeps track of the tapped button tag.
+    /// `tappedImageButtonTag`  property keeps track of the tapped button tag.
     /// - Parameter sender: Pass in the image button tapped
     @objc private func imageButtonAction(_ sender: UIButton) {
-        
         tappedImageButtonTag = sender.tag
         presentImagePicker()
     }
+    
+    
     
     
     // MARK: - Share
