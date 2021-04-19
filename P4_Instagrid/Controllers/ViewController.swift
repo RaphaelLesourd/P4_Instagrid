@@ -21,38 +21,28 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var swipeIcon: UIImageView!
     @IBOutlet weak var swipeLabel: UILabel!
     
-   // MARK: - Properties
+    // MARK: - Properties
     private var tappedImageButtonTag = Int()
     private var gestureSwipeRecognizer = UISwipeGestureRecognizer()
     private let emptyStateGridButtonImage = #imageLiteral(resourceName: "Plus")
     private let imagePickerController = UIImagePickerController()
     private let gridManager = GridManager()
+    private let photoAccessManager = PhotoLibraryAccessManager()
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        
         buttonsSetup()
         gestureSetup()
-   
-        imagePickerController.delegate = self
-        gestureSwipeRecognizer.delegate = self
         
         /// selects the firrst layout when the app is first opened
         controlButtonsAction(controlButtonsArray[0])
         /// add a notification observer to keep track when the device orientation changes and update the ui
         NotificationCenter.default.addObserver(self, selector: #selector(updateUiOnOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        checkPermission()
-    }
-    
-  
    
-    
     // MARK: - button setup
     
     /// Sets up  the buttons properties for the control buttons and the gird view button.
@@ -84,7 +74,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     /// Gesture Recognizer sets a left swipe for landscape mode and up swipe for portrait orientation.
     private func gestureSetup() {
-    
+        gestureSwipeRecognizer.delegate = self
+        
         let leftSwipe =  UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
         leftSwipe.direction = .left
         view.addGestureRecognizer(leftSwipe)
@@ -125,19 +116,22 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let left = CGAffineTransform(translationX: -view.bounds.width, y: 0)
         
         ///  if grid is completed animate out gridview in proper direction
-        let isGridComplete = gridManager.gridViewComplete(for: topImageStackView, and: bottomImageStackView, refImage: emptyStateGridButtonImage)
+        let isGridComplete = gridManager.gridViewComplete(for: topImageStackView,
+                                                          and: bottomImageStackView,
+                                                          refImage: emptyStateGridButtonImage)
         
         if isGridComplete {
-            UIView.animate(withDuration: 0.3) { [weak self] in
+            UIView.animate(withDuration: 0.3) {
                 /// Check which direction is passed in and assign proper up or left translation
-                self?.gridView.transform = direction == .up ? up : left
+                self.gridView.transform = direction == .up ? up : left
             } completion: { _ in
                 /// On completion share the gridView
                 self.shareImageFromGrid()
             }
         } else {
             /// if grid not completed display an alert to the  user
-            incompleteGridAlert()
+            presentAlert(message: "You need to complete the chosen grid before sharing with your friends.")
+            
         }
     }
     
@@ -147,19 +141,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             self.gridView.transform = .identity
         }
     }
-   
-    
-    
-    // MARK: - Alert
-    
-    /// Present an alert to inform user, the grid is not complete with a simple message and a dismiss button.
-    private func incompleteGridAlert() {
-        let alert = UIAlertController(title: "Oups!", message: "You need to complete the chosen grid before sharing with your friends.", preferredStyle: .alert)
-        let dismiss = UIAlertAction(title: "Dismiss", style: .default)
-        alert.addAction(dismiss)
-        present(alert, animated: true)
-    }
-    
     
     
     // MARK: - UI orientation update
@@ -192,7 +173,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     /// - Third layout     : None of the button are hidden.
     ///
     /// - Parameter sender: Pass in the control button tapped
-
+    
     @objc private func controlButtonsAction(_ sender: UIButton) {
         
         /// for loop to reset all control button in the collection to non selected state
@@ -228,16 +209,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     
-    
     // MARK: - Share
     
     /// Share gridView as an image.
     ///
     /// After the gridView is converted to a UIImage, the return image is shared.
     private func shareImageFromGrid() {
-      /// Converts the view to an image
+        /// Converts the view to an image
         gridManager.viewToImage(for: gridView) { [weak self] image in
-            
+            guard let self = self else {return}
             /// pass in the image to the activity controller
             let activityController = UIActivityViewController(activityItems: [image],
                                                               applicationActivities: nil)
@@ -250,46 +230,58 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
                     print("\(error?.localizedDescription ?? "")")
                     return
                 }
-                self?.gridViewAnimateIn()
+                self.gridViewAnimateIn()
             }
             /// present the activity controller
             DispatchQueue.main.async {
-                self?.present(activityController, animated: true, completion: nil)
+                self.present(activityController, animated: true, completion: nil)
             }
         }
     }
     
-
+    
     // MARK: - Image Picker
     
     /// Present Image Picker Controller
+    ///
+    /// First checks If photo library is access authoized:
+    /// - true: Present image picker.
+    /// - false:  display an alert.
+    ///
+    /// Before presenting the image picker controller the source type availability is checked.
     private func presentImagePicker() {
-        imagePickerController.allowsEditing = false
-        imagePickerController.sourceType = .photoLibrary
-        present(imagePickerController, animated: true, completion: nil)
+        
+        photoAccessManager.accessPermission { [weak self] (granted) in
+            guard let self = self else {return}
+            if granted {
+                
+                let sourceType = UIImagePickerController.SourceType.photoLibrary
+                if UIImagePickerController.isSourceTypeAvailable(sourceType) {
+                    DispatchQueue.main.async {
+                        self.imagePickerController.delegate = self
+                        self.imagePickerController.allowsEditing = false
+                        self.imagePickerController.sourceType = sourceType
+                        self.present(self.imagePickerController, animated: true, completion: nil)
+                    }
+                }
+            } else {
+                self.presentAlert(message: "It appears your photo library is not accessible, please check your settings.")
+            }
+        }
     }
     
-    func checkPermission() {
-        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
-        switch photoAuthorizationStatus {
-        case .authorized:
-            print("Access is granted by user")
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization({
-                (newStatus) in print("status is \(newStatus)")
-                if newStatus == PHAuthorizationStatus.authorized {
-                    print("success")
-                }
-            })
-        case .restricted:
-            print("Access is granted by user")
-        case .denied:
-            print("Access is granted by user")
-        case .limited:
-            print("Access is granted by user")
-        @unknown default:
-            print("Access is granted by user")
-        }
+    // MARK: - Alert
+    
+    /// Present an alert to inform user of a potential issue.
+    /// - Parameters:
+    ///   - title: Alert title
+    ///   - body: Message to the user
+    private func presentAlert(with title: String = "Oups!", message body: String) {
+      
+        let alert = UIAlertController(title: title, message: body, preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "Dismiss", style: .default)
+        alert.addAction(dismiss)
+        present(alert, animated: true)
     }
 }
 
@@ -298,16 +290,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         /// Set the image to the proper button by using the tappedImageButtonTag property which keeps track of the button tag.
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        if let image = info[.originalImage] as? UIImage {
             imageButtonsArray[tappedImageButtonTag].setImage(image, for: .normal)
         }
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
-  
+    
     
     /// Delegate method to dismiss picker if cancel button is tapped
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
