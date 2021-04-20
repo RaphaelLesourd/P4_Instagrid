@@ -67,18 +67,11 @@
 				811648D926065ADE001755C7 /* Info.plist */,
 				813D3AD52607407E005A23D6 /* Supporting Files */,
 				8134E6A3262C8E5C005CBD11 /* Utilities */,
-				8118D426260A233C00C21215 /* Model */,
+				81C8C5AB262E080100F1F81F /* Model */,
 				8118D427260A234C00C21215 /* View */,
 				813D3AD9260740A6005A23D6 /* Controllers */,
 			);
 			path = P4_Instagrid;
-			sourceTree = "<group>";
-		};
-		8118D426260A233C00C21215 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		8118D427260A234C00C21215 /* View */ = {
@@ -117,6 +110,13 @@
 				811648CF26065ADC001755C7 /* ViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		81C8C5AB262E080100F1F81F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
