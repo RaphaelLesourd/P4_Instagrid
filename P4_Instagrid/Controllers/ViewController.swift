@@ -16,7 +16,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var bottomImageStackView: UIStackView!
     
     @IBOutlet var imageButtonsArray: [UIButton]!
-    @IBOutlet var controlButtonsArray: [UIButton]!
+    @IBOutlet var layoutButtonsArray: [UIButton]!
     
     @IBOutlet weak var swipeIcon: UIImageView!
     @IBOutlet weak var swipeLabel: UILabel!
@@ -38,11 +38,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         gestureSetup()
         
         /// selects the firrst layout when the app is first opened
-        controlButtonsAction(controlButtonsArray[0])
+        layoutButtonsAction(layoutButtonsArray[0])
+        
         /// add a notification observer to keep track when the device orientation changes and update the ui
-        NotificationCenter.default.addObserver(self, selector: #selector(updateUiOnOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateUiOnOrientationChange),
+                                               name: UIDevice.orientationDidChangeNotification,
+                                               object: nil)
     }
-   
+    
     // MARK: - button setup
     
     /// Sets up  the buttons properties for the control buttons and the gird view button.
@@ -60,15 +64,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// for loop assigning the same selected state image to all 3 control buttons
         /// set content mode to keep image proportions and fill the button
         /// assign same target function to all 3 control buttons
-        controlButtonsArray.forEach { button in
+        layoutButtonsArray.forEach { button in
             button.contentMode = .scaleAspectFill
             button.setImage(#imageLiteral(resourceName: "Selected"), for: .selected)
-            button.addTarget(self, action: #selector(controlButtonsAction(_:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(layoutButtonsAction(_:)), for: .touchUpInside)
         }
     }
-    
-    
-    
+   
     
     // MARK: - Gesture
     
@@ -86,6 +88,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /// Handles the swipe gesture by animating the gridView out either to the left or up depending on device orientation.
+    ///
+    ///  - up: available in portrait mode only
+    ///  - left: available in landscape mode only
     /// - Parameter gesture: Pass in swipe gesture recognizer
     @objc private func handleGesture(gesture: UISwipeGestureRecognizer) {
         switch gesture.direction {
@@ -108,30 +113,31 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - UI Animation
     
     /// Animate the girdView out of the view
-    /// Before animating the view , a gridView complete for selected layout is done.
+    ///
+    /// Before animating the view ,  gridView is complete for selected layout check is done.
     /// - Parameter direction: pass in the gesture recognizer direction
     private func gridViewAnimateOut(to direction: UISwipeGestureRecognizer.Direction ) {
         
-        let up = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height)
-        let left = CGAffineTransform(translationX: -view.bounds.width, y: 0)
-        
-        ///  if grid is completed animate out gridview in proper direction
+        /// Call function from GridManager  class to check if the grid for selected layout is complete.
         let isGridComplete = gridManager.gridViewComplete(for: topImageStackView,
                                                           and: bottomImageStackView,
                                                           refImage: emptyStateGridButtonImage)
         
         if isGridComplete {
+            
+            let up = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height)
+            let left = CGAffineTransform(translationX: -view.bounds.width, y: 0)
+            
+            /// Check which direction is passed in and assign proper up or left translation
+            /// On completion the activity controller is presented to share the gridView
+            /// if grid not completed display an alert to the  user
             UIView.animate(withDuration: 0.3) {
-                /// Check which direction is passed in and assign proper up or left translation
                 self.gridView.transform = direction == .up ? up : left
             } completion: { _ in
-                /// On completion share the gridView
                 self.shareImageFromGrid()
             }
         } else {
-            /// if grid not completed display an alert to the  user
             presentAlert(message: "You need to complete the chosen grid before sharing with your friends.")
-            
         }
     }
     
@@ -163,9 +169,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     /// Control the grid by hidding or showing button within the 2 stackviews.
     ///
-    /// To match the layout Icons of the control button, image buttons are hidden depending on which control button is tapped.
+    /// To match the selected layout, image buttons are hidden depending on which layout button is tapped.
     ///
-    /// By hidding a button, the stackview streches the adjacent button to full width.
+    /// By hidding an image button, the stackview streches the adjacent button to full width and give the effect of having one button.
     ///
     /// `Three cases:`
     /// - First layout      : Top right is hidden  TAG 1.
@@ -174,14 +180,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     ///
     /// - Parameter sender: Pass in the control button tapped
     
-    @objc private func controlButtonsAction(_ sender: UIButton) {
+    @objc private func layoutButtonsAction(_ sender: UIButton) {
         
-        /// for loop to reset all control button in the collection to non selected state
-        for button in controlButtonsArray {
+        /// for loop to reset all layout buttons in the collection to non selected state
+        for button in layoutButtonsArray {
             button.isSelected = false
         }
         /// set sender button to selected stated by using button tag property
-        controlButtonsArray[sender.tag].isSelected = true
+        layoutButtonsArray[sender.tag].isSelected = true
         
         /// for loop to reset all imageButton in the collection to non hiden state
         for button in imageButtonsArray {
@@ -277,7 +283,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     ///   - title: Alert title
     ///   - body: Message to the user
     private func presentAlert(with title: String = "Oups!", message body: String) {
-      
+        
         let alert = UIAlertController(title: title, message: body, preferredStyle: .alert)
         let dismiss = UIAlertAction(title: "Dismiss", style: .default)
         alert.addAction(dismiss)
@@ -298,7 +304,6 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         }
         dismiss(animated: true, completion: nil)
     }
-    
     
     /// Delegate method to dismiss picker if cancel button is tapped
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

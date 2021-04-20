@@ -8,12 +8,10 @@
 import Foundation
 import Photos
 
+/// Utility class for checking if access to the photo library is authorized
 class PhotoLibraryAccessManager {
-    
-    /// Check if access to the photo library is authorized
-    ///
-    /// If authorization status is not determined, a new request alert is presented.
-    /// 
+
+    /// In case the  authorization status is not determined, a new request alert is presented.
     /// - Parameter completion: True or false bool if authorized or not
     func accessPermission(completion: @escaping(Bool) -> Void) {
          let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
@@ -27,7 +25,6 @@ class PhotoLibraryAccessManager {
                  }
              })
          case .restricted, .denied:
-            print("noop")
              completion(false)
          case .limited:
              completion(true)
