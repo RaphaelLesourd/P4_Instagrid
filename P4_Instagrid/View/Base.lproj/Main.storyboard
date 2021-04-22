@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -27,7 +27,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instagrid" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t1u-Bi-scc">
-                                <rect key="frame" x="144" y="54" width="140" height="35"/>
+                                <rect key="frame" x="144" y="54" width="140" height="39"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="39" id="3IO-nt-frw"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="140" id="Zda-XW-AGa"/>
@@ -56,10 +56,10 @@
                                 </variation>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="KN4-gc-oYT" userLabel="SwipeStackView">
-                                <rect key="frame" x="109" y="205.66666666666666" width="210" height="47.333333333333343"/>
+                                <rect key="frame" x="134" y="207" width="160.33333333333337" height="46"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow Up" translatesAutoresizingMaskIntoConstraints="NO" id="WwO-9y-tyC">
-                                        <rect key="frame" x="98.666666666666657" y="0.0" width="13" height="9"/>
+                                        <rect key="frame" x="73.666666666666657" y="0.0" width="13" height="9"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="13" id="SNV-Ek-KgV">
                                                 <variation key="heightClass=compact-widthClass=compact" constant="9"/>
@@ -73,7 +73,7 @@
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe up to share" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="alt-48-0Je">
-                                        <rect key="frame" x="0.0" y="17" width="210" height="30.333333333333329"/>
+                                        <rect key="frame" x="0.0" y="17" width="160.33333333333334" height="29"/>
                                         <fontDescription key="fontDescription" name="Delm-Medium" family="Delm" pointSize="26"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -240,6 +240,12 @@
                                 <exclude reference="E5v-cC-Qtl"/>
                                 <exclude reference="Smm-B7-znd"/>
                                 <exclude reference="jCa-ef-OOB"/>
+                                <exclude reference="4pU-gd-umQ"/>
+                                <exclude reference="9Eh-Wz-0p1"/>
+                                <exclude reference="M1w-Tv-Alw"/>
+                                <exclude reference="Nx6-5S-n1H"/>
+                                <exclude reference="WQX-xD-3qJ"/>
+                                <exclude reference="XAP-w0-whv"/>
                                 <exclude reference="FcU-bb-kPs"/>
                                 <exclude reference="Kel-Ig-R8K"/>
                                 <exclude reference="LY2-E6-9me"/>
@@ -254,12 +260,6 @@
                                 <exclude reference="m3k-R3-LeV"/>
                                 <exclude reference="mg2-rA-VhW"/>
                                 <exclude reference="nMc-4P-17r"/>
-                                <exclude reference="4pU-gd-umQ"/>
-                                <exclude reference="9Eh-Wz-0p1"/>
-                                <exclude reference="M1w-Tv-Alw"/>
-                                <exclude reference="Nx6-5S-n1H"/>
-                                <exclude reference="WQX-xD-3qJ"/>
-                                <exclude reference="XAP-w0-whv"/>
                                 <exclude reference="cAO-sk-VCi"/>
                                 <exclude reference="kUE-MM-zpN"/>
                                 <exclude reference="nGQ-xq-zVv"/>
@@ -270,13 +270,13 @@
                             <mask key="constraints">
                                 <include reference="2j1-yb-bDk"/>
                                 <include reference="E5v-cC-Qtl"/>
+                                <include reference="4pU-gd-umQ"/>
+                                <include reference="9Eh-Wz-0p1"/>
                                 <include reference="LY2-E6-9me"/>
                                 <include reference="Ob0-cu-r8m"/>
                                 <include reference="Ffi-dS-70Z"/>
                                 <include reference="Trg-q4-CH3"/>
                                 <include reference="m3k-R3-LeV"/>
-                                <include reference="4pU-gd-umQ"/>
-                                <include reference="9Eh-Wz-0p1"/>
                                 <include reference="xZM-T5-MWz"/>
                             </mask>
                         </variation>
@@ -284,13 +284,13 @@
                             <mask key="constraints">
                                 <include reference="BOu-rQ-cNX"/>
                                 <include reference="Smm-B7-znd"/>
+                                <include reference="M1w-Tv-Alw"/>
+                                <include reference="Nx6-5S-n1H"/>
                                 <include reference="FcU-bb-kPs"/>
                                 <include reference="Ozk-QV-JE3"/>
                                 <include reference="fHL-N1-5uk"/>
                                 <include reference="5if-g1-bZJ"/>
                                 <include reference="mg2-rA-VhW"/>
-                                <include reference="M1w-Tv-Alw"/>
-                                <include reference="Nx6-5S-n1H"/>
                                 <exclude reference="cAO-sk-VCi"/>
                                 <include reference="kUE-MM-zpN"/>
                             </mask>
@@ -299,12 +299,12 @@
                             <mask key="constraints">
                                 <include reference="1ct-h8-nw4"/>
                                 <include reference="jCa-ef-OOB"/>
+                                <include reference="WQX-xD-3qJ"/>
+                                <include reference="XAP-w0-whv"/>
                                 <include reference="Kel-Ig-R8K"/>
                                 <include reference="N3a-os-BIr"/>
                                 <include reference="kq2-Cx-HnV"/>
                                 <include reference="nMc-4P-17r"/>
-                                <include reference="WQX-xD-3qJ"/>
-                                <include reference="XAP-w0-whv"/>
                                 <include reference="nGQ-xq-zVv"/>
                             </mask>
                         </variation>

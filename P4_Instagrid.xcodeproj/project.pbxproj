@@ -129,6 +129,7 @@
 				811648C426065ADC001755C7 /* Sources */,
 				811648C526065ADC001755C7 /* Frameworks */,
 				811648C626065ADC001755C7 /* Resources */,
+				812BB42D26306FE600A566A2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -146,7 +147,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					811648C726065ADC001755C7 = {
 						CreatedOnToolsVersion = 12.4;
@@ -185,6 +186,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		812BB42D26306FE600A566A2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#if which swiftlint >/dev/null; then\n#    swiftlint\n#else\n#    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n#fi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		811648C426065ADC001755C7 /* Sources */ = {

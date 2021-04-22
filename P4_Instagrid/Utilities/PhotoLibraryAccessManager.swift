@@ -8,26 +8,29 @@
 import Foundation
 import Photos
 
+protocol PhotoLibraryManagerDelegate: AnyObject {
+    func presentAlert(with title: String, message body: String)
+    func presentImagePicker()
+}
+
 /// Utility class for checking if access to the photo library is authorized
 class PhotoLibraryAccessManager {
+    var photoLibraryDelegate: PhotoLibraryManagerDelegate?
 
     /// In case the  authorization status is not determined, a new request alert is presented.
-    /// - Parameter completion: True or false bool if authorized or not
-    func accessPermission(completion: @escaping(Bool) -> Void) {
+    func accessPermission() {
          let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
          switch photoAuthorizationStatus {
-         case .authorized:
-            completion(true)
+            case .authorized, .limited:
+                photoLibraryDelegate?.presentImagePicker()
          case .notDetermined:
              PHPhotoLibrary.requestAuthorization({ (newStatus) in
                  if newStatus == PHAuthorizationStatus.authorized {
-                    completion(true)
+                    self.photoLibraryDelegate?.presentImagePicker()
                  }
              })
          case .restricted, .denied:
-             completion(false)
-         case .limited:
-             completion(true)
+            photoLibraryDelegate?.presentAlert(with: "Oups!", message: "Unable to access your photo library. Please, check your settings.")
          @unknown default:
              break
          }
