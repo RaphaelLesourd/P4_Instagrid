@@ -4,7 +4,7 @@
 
 # Développez Instagrid : une application de montage photo !
 
-Projet 5 du parcours iOs dev, de OCR.
+Projet 4 du parcours iOs dev, de OCR.
 
 ## Technologies
 - Swift
